@@ -47,7 +47,7 @@ app.get("/", (req, res, next) => {
 
 app.get("/about", (req, res) => {
   //res.sendFile("./views/about.html", { root: __dirname });
-  res.render("about");
+  res.render("about", { title: "About" });
 });
 
 //blog routes
@@ -79,9 +79,21 @@ app.post("/blogs", (req, res) => {
     });
 });
 
+//lets get the ids'
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { blog: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 //create page
 app.get("/blogs/create", (req, res) => {
-  res.render("create");
+  res.render("create", { title: "create" });
 });
 
 //404 error
