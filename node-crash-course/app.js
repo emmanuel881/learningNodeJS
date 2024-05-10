@@ -11,7 +11,7 @@ const Blog = require("./models/blog");
 //connecting to mongodb
 const dbURL =
   "mongodb+srv://netninja:netninja123KQ@nodetuts.wtdrw2d.mongodb.net/?retryWrites=true&w=majority&appName=nodetuts";
-//connect to the database
+//connect to the databasev
 mongoose
   .connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
@@ -24,6 +24,9 @@ mongoose
 //the public word is the name of the folder we have allowed the broswer to access
 app.use(express.static("public", { root: __dirname }));
 //app.use(morgan("dev"));
+
+//lets create a middle where to handle post
+app.use(express.urlencoded({ extended: true }));
 
 //let us register a view engine
 app.set("view engine", "ejs");
@@ -53,6 +56,23 @@ app.get("/blogs", (req, res) => {
     .sort({ createdAt: -1 })
     .then((result) => {
       res.render("index", { title: "All blogs", blogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//handle post request
+
+app.post("/blogs", (req, res) => {
+  //lets capture the data instance
+  const blog = new Blog(req.body);
+
+  blog
+    .save()
+    .then((result) => {
+      //lets redirect home page after submiting
+      res.redirect("./blogs");
     })
     .catch((err) => {
       console.log(err);
