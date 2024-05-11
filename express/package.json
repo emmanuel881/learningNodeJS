@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "SI": "nodemon server.js"
+    "SI": "nodemon server.js",
+    "start": "node server",
+    "dev": "node --watch --env-file=.env server"
   },
   "author": "",
   "license": "ISC",
