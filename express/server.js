@@ -1,23 +1,15 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const path = require("path");
-
-let posts = [
-  { id: 47, title: "Nairobi" },
-  { id: 44, title: "Migori" },
-  { id: 42, title: "Kisumu" },
-  { id: 40, title: "Busia" },
-  { id: 1, title: "Mombasa" },
-];
+const posts = require("./routes/postRoutes");
 
 app.listen(port, (req, res) => {
   console.log("running server instance");
 });
 
-app.get("/api/post", (re, res) => {
-  res.json(posts);
-});
+//post routes
+app.use("/api/post", posts);
 
 app.use(express.static(path.join(__dirname, "public")));
 /*
