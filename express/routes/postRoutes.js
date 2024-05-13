@@ -13,12 +13,13 @@ router.get("/", (re, res) => {
   res.json(posts);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const id = parseInt(req.params.id);
   const post = posts.find((post) => post.id === id);
 
   if (!post) {
-    res.status(404).json({ msg: "file does not exist" });
+    const error = new Error("post does not exist");
+    return next(error);
   } else {
     res.status(200).json(post);
   }
