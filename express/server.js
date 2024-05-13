@@ -3,6 +3,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 const path = require("path");
 const posts = require("./routes/postRoutes");
+const logger = require("./middleware/logger");
+
+//body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+//middleware
+app.use(logger);
 
 app.listen(port, (req, res) => {
   console.log("running server instance");
